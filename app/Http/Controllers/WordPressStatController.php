@@ -21,11 +21,14 @@ class WordPressStatController extends Controller
         // dd($response);
 
         $api_params = [
-            'user_agent' => 'Orbisius_wporg_API_tutorial/1.0',
-            'request[search]' => 'orbisius', /// <<== searched keyword
+            // 'user_agent' => 'RobinWPDeveloper/1.0',
+            'request[search]' => 'wpdeveloper', /// <<== searched keyword
             'request[page]' => 1,
-            'request[per_page]' => 8,
-        
+            'request[per_page]' => 100,
+            // 'request[browse]' => 'top-rated',
+            'request[browse]' => 'popular',
+            // 'request[author]' => '<a href="https://wpdeveloper.com/">WPDeveloper</a>',
+            //===Author and browse doesn't work together===
             // This is a great idea to only fetch fields that are needed.
             'request[fields]' => [
                 'name' => true,
@@ -36,9 +39,9 @@ class WordPressStatController extends Controller
                 // we don't care about these at all so we want less data for faster transfer
                 'rating' => false,
                 'ratings' => false,
-                'downloaded' => false,
+                'downloaded' => true,
                 'description' => false,
-                'active_installs' => false,
+                'active_installs' => true,
                 'short_description' => false,
                 'donate_link' => false,
                 'tags' => false,
@@ -60,7 +63,7 @@ class WordPressStatController extends Controller
         $plugin_search_api_url = 'http://api.wordpress.org/plugins/info/1.1/?action=query_plugins';
         $api_url = $plugin_search_api_url;
         $packaged_params = $api_params;
-        $packaged_params['request']['search'] = 'orbisius';
+        $packaged_params['request']['search'] = 'wpdeveloper';
         $packaged_params = http_build_query($packaged_params);
         
         $ch = curl_init();
@@ -81,9 +84,17 @@ class WordPressStatController extends Controller
             $result = json_decode( $content_json_maybe, true );
         }
         
-        var_dump($result);
-        
+        $popularPlugins = !empty($result['plugins']) ? $result['plugins'] : []; 
+        foreach ($popularPlugins as $key => $popularPlugin) {
+            // dd($popularPlugin);
+            $popularRanking = $key + 1;
+            if($popularPlugin['author_profile'] == 'https://profiles.wordpress.org/wpdevteam/') {
+                echo $popularRanking . ' - ' .  $popularPlugin['name'] . '<br>';
+            }
+        }
         curl_close($ch);
+
+        dd($popularPlugins);
         /////////////////////////////////////////////////////////////////////////
         
         
@@ -114,7 +125,7 @@ class WordPressStatController extends Controller
             $result = json_decode( $content_json_maybe, true );
         }
         
-        var_dump($result);
+        dd($result);
         
         curl_close($ch);
         /////////////////////////////////////////////////////////////////////////

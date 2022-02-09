@@ -24,6 +24,9 @@ class WordPressStatController extends Controller
         // $response = Http::get('api.wordpress.org');
         // dd($response);
         
+        //Downloads
+        // http://api.wordpress.org/plugins/info/1.0/{slug}.json
+        // https://api.wordpress.org/stats/plugin/1.0/downloads.php?slug=better-payment&limit=365
         
         $wpdevPlugins = Cache::get('wpdevPlugins');
         $wpdevPluginsDetails = Cache::get('wpdevPluginsDetails');

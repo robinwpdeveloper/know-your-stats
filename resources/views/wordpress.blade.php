@@ -22,14 +22,14 @@
                     Popular Plugins - WPDeveloper
                 </div>
                 <div class="pb-3"></div>
-                <div class="pl-3">
+                <div class="pl-3" style="padding-right: 0.75rem">
                     <style>
                         th, td {
                             vertical-align: middle;
                             text-align: center;
                         }
                     </style>
-                    <table class="w-full whitespace-nowrap">
+                    <table class="whitespace-nowrap">
                         <thead>
                             <tr class="focus:outline-none h-16 border border-gray-100 rounded">
                                 <th>Rank</th>
@@ -59,14 +59,15 @@
                                     {{ $plugin['version'] }}
                                 </td>
                                 <td>
-                                    Total Ratings: {{ $plugin['num_ratings'] }} <br>
-                                    Support Threads Resolved: {{ $plugin['support_threads_resolved'] }}/{{ $plugin['support_threads'] }} <br>
+                                    Ratings: {{ $plugin['num_ratings'] }} <br>
+                                    Support: {{ $plugin['support_threads_resolved'] }}/{{ $plugin['support_threads'] }} <br>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                <div class="pb-3"></div>
             </div>
         </div>
     </div>
